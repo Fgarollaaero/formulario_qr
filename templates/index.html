@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario QR</title>
+</head>
+<body>
+    <h1>Completar formulario</h1>
+    <form method="post">
+        <label>Nombre:</label><br>
+        <input type="text" name="nombre"><br><br>
+        <label>Comentario:</label><br>
+        <textarea name="comentario"></textarea><br><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <h2>Respuestas registradas:</h2>
+    <ul>
+        {% for r in respuestas %}
+        <li><b>{{ r.nombre }}</b>: {{ r.comentario }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

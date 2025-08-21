@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, send_file
 from flask_sqlalchemy import SQLAlchemy
 import qrcode
 import os
+import pandas as pd
 from io import BytesIO
 
 # Configuración base
@@ -28,15 +29,20 @@ def index():
         return redirect(url_for("index"))
     return render_template("index.html")
 
+@app.route('/export')
+def export():
+    respuestas = Respuesta.query.all()
+    df = pd.DataFrame([(r.nombre, r.comentario) for r in respuestas], columns=['Nombre', 'Comentario'])
+    df.to_csv('respuestas.csv', index=False)
+    return send_file('respuestas.csv', mimetype='text/csv', as_attachment=True)
+
 # Generar y guardar QR
 @app.route("/qr")
 def generar_qr():
-    url = "http://127.0.0.1:5000/"  # URL para pruebas locales, ajusta para producción
+    url = request.host_url
     img = qrcode.make(url)
-    # Crear carpeta static si no existe
     if not os.path.exists('static'):
         os.makedirs('static')
-    # Guardar el QR como archivo
     img.save("static/qr.png")
     return '<img src="/static/qr.png" alt="QR Code">'
 
@@ -52,4 +58,4 @@ def admin():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-        app.run(debug=True)
+        app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))

@@ -33,10 +33,12 @@ def index():
 def export():
     respuestas = Respuesta.query.all()
     df = pd.DataFrame([(r.nombre, r.comentario) for r in respuestas], columns=['Nombre', 'Comentario'])
-    import tempfile
-    with tempfile.NamedTemporaryFile(delete=False, suffix='.csv') as tmp:
-        df.to_csv(tmp.name, index=False)
-        return send_file(tmp.name, mimetype='text/csv', as_attachment=True)
+    
+    output = BytesIO()
+    df.to_csv(output, index=False)
+    output.seek(0)
+    
+    return send_file(output, mimetype='text/csv', as_attachment=True, download_name="respuestas.csv")
     
 # Generar y guardar QR
 @app.route("/qr")

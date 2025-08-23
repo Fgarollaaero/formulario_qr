@@ -46,7 +46,7 @@ def generar_qr():
     if not os.path.exists('static'):
         os.makedirs('static')
     img.save("static/qr.png")
-    return '<img src="/static/qr.png" alt="QR Code">'
+    return '<img src="/static/qr.png?v=1" alt="QR Code">'
 
 # Opcional: Ruta admin
 @app.route('/admin', methods=['GET'])

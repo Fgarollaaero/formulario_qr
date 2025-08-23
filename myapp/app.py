@@ -5,9 +5,9 @@ import os
 import pandas as pd
 from io import BytesIO
 
-# Ruta absoluta al directorio "templates"
+# Ruta absoluta relativa al proyecto
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATES_DIR = os.path.join(BASE_DIR, "C:/Users/Fede/formulario_qr/templates")
+TEMPLATES_DIR = os.path.join(BASE_DIR, "..", "templates")
 
 # Configuración base
 app = Flask(__name__, template_folder=TEMPLATES_DIR)

@@ -5,8 +5,12 @@ import os
 import pandas as pd
 from io import BytesIO
 
+# Ruta absoluta al directorio "templates"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATES_DIR = os.path.join(BASE_DIR, "C:/Users/Fede/formulario_qr/templates")
+
 # Configuración base
-app = Flask(__name__)
+app = Flask(__name__, template_folder=TEMPLATES_DIR)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///datos.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)

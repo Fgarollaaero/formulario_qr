@@ -40,15 +40,19 @@ def export():
     
     return send_file(output, mimetype='text/csv', as_attachment=True, download_name="respuestas.csv")
     
-# Generar y guardar QR
 @app.route("/qr")
 def generar_qr():
-    url = request.host_url
+    # Si querés que el QR apunte al formulario principal
+    url = url_for('index', _external=True)
+
+    # Si querés que apunte al export, usá:
+    # url = url_for('export', _external=True)
+
     img = qrcode.make(url)
     if not os.path.exists('static'):
         os.makedirs('static')
     img.save("static/qr.png")
-    return '<img src="/static/qr.png?v=1" alt="QR Code">'
+    return f'<p>QR apuntando a: {url}</p><img src="/static/qr.png?v=2" alt="QR Code">'
 
 # Opcional: Ruta admin
 @app.route('/admin', methods=['GET'])

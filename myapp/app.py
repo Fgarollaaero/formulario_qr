@@ -3,69 +3,76 @@ from flask_sqlalchemy import SQLAlchemy
 import qrcode
 import os
 import pandas as pd
-from io import BytesIO
 
-# Ruta absoluta relativa al proyecto
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATES_DIR = os.path.join(BASE_DIR, "..", "templates")
-
-# Configuración base
-app = Flask(__name__, template_folder=TEMPLATES_DIR)
+app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///datos.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Modelo de datos
 class Respuesta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100))
-    comentario = db.Column(db.String(500))
+    nombre = db.Column(db.String(100))  # Opcional
+    area = db.Column(db.String(100))    # Área del evento
+    descripcion = db.Column(db.String(500))  # Descripción requerida
+    acciones = db.Column(db.String(500))     # Acciones tomadas (opcional)
+    fecha = db.Column(db.String(50))        # Fecha y hora (ej. "2025-08-31 09:00")
+    severidad = db.Column(db.String(20))    # Severidad (Baja, Media, Alta)
+    estado = db.Column(db.String(20))       # Estado (Abierto, En progreso, Cerrado)
+    aeronave = db.Column(db.String(100))    # Opcional, número de serie o matrícula
+    componente = db.Column(db.String(100))  # Opcional, componente afectado
 
-# Página con formulario
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        nombre = request.form.get("nombre")
-        comentario = request.form.get("comentario")
-        nueva = Respuesta(nombre=nombre, comentario=comentario)
-        db.session.add(nueva)
-        db.session.commit()
-        return redirect(url_for("index"))
+        nombre = request.form.get("nombre", "")
+        area = request.form.get("area")
+        descripcion = request.form.get("descripcion")
+        acciones = request.form.get("acciones", "")
+        fecha = request.form.get("fecha")
+        severidad = request.form.get("severidad", "")
+        estado = request.form.get("estado", "")
+        aeronave = request.form.get("aeronave", "")
+        componente = request.form.get("componente", "")
+        if area and descripcion:  # Área y descripción son requeridos
+            try:
+                nueva = Respuesta(nombre=nombre, area=area, descripcion=descripcion, acciones=acciones,
+                                 fecha=fecha, severidad=severidad, estado=estado, aeronave=aeronave, componente=componente)
+                db.session.add(nueva)
+                db.session.commit()
+                return redirect(url_for("index"))
+            except Exception as e:
+                return f"Error al guardar: {str(e)}", 500
+        else:
+            return "Por favor, completa al menos el área y la descripción.", 400
     return render_template("index.html")
 
-@app.route('/export')
-def export():
-    respuestas = Respuesta.query.all()
-    df = pd.DataFrame([(r.nombre, r.comentario) for r in respuestas], columns=['Nombre', 'Comentario'])
-    
-    output = BytesIO()
-    df.to_csv(output, index=False)
-    output.seek(0)
-    
-    return send_file(output, mimetype='text/csv', as_attachment=True, download_name="respuestas.csv")
-    
 @app.route("/qr")
 def generar_qr():
-    # Si querés que el QR apunte al formulario principal
-    url = url_for('index', _external=True)
-
-    # Si querés que apunte al export, usá:
-    # url = url_for('export', _external=True)
-
+    url = request.host_url
     img = qrcode.make(url)
     if not os.path.exists('static'):
         os.makedirs('static')
     img.save("static/qr.png")
-    return f'<p>QR apuntando a: {url}</p><img src="/static/qr.png?v=2" alt="QR Code">'
+    return '<img src="/static/qr.png?v=1" alt="QR Code">'
 
-# Opcional: Ruta admin
 @app.route('/admin', methods=['GET'])
 def admin():
     clave = request.args.get('clave')
-    if clave == 'secreta123':  # Cambia esta clave
+    if clave == 'secreta123':
         respuestas = Respuesta.query.all()
         return render_template('index.html', respuestas=respuestas)
     return "Acceso denegado. Usa ?clave=secreta123", 403
+
+@app.route('/export')
+def export():
+    respuestas = Respuesta.query.all()
+    df = pd.DataFrame([(r.nombre or '', r.area, r.descripcion, r.acciones or '', r.fecha or '', r.severidad or '',
+                       r.estado or '', r.aeronave or '', r.componente or '') for r in respuestas],
+                      columns=['Nombre', 'Área', 'Descripción', 'Acciones', 'Fecha', 'Severidad', 'Estado', 'Aeronave', 'Componente'])
+    import tempfile
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.csv') as tmp:
+        df.to_csv(tmp.name, index=False)
+        return send_file(tmp.name, mimetype='text/csv', as_attachment=True)
 
 if __name__ == "__main__":
     with app.app_context():

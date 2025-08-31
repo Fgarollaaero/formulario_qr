@@ -1,24 +1,97 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Formulario QR</title>
+  <meta charset="UTF-8">
+  <title>Reporte de Seguridad Operacional</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f8; margin: 0; padding: 0; }
+    .container { width: 80%; max-width: 700px; margin: 40px auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    h1 { text-align: center; color: #333; margin-bottom: 20px; }
+    label { display: block; margin-top: 15px; font-weight: bold; color: #555; }
+    input, select, textarea, button { width: 100%; padding: 10px; margin-top: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 14px; }
+    textarea { resize: vertical; min-height: 80px; }
+    button { background: #007bff; color: white; font-weight: bold; cursor: pointer; border: none; margin-top: 20px; }
+    button:hover { background: #0056b3; }
+    .respuestas { margin-top: 20px; }
+    .respuesta-item { border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+  </style>
 </head>
 <body>
-    <h1>Completar formulario</h1>
-    <form method="post">
-        <label>Nombre:</label><br>
-        <input type="text" name="nombre"><br><br>
-        <label>Comentario:</label><br>
-        <textarea name="comentario"></textarea><br><br>
-        <button type="submit">Enviar</button>
+  <div class="container">
+    <h1>Reporte de Seguridad Operacional</h1>
+    <form method="POST" action="/">
+      <label for="nombre">Nombre (opcional)</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre o deja en blanco">
+
+      <label for="area">Área del evento</label>
+      <select id="area" name="area" required>
+        <option value="">-- Selecciona un área --</option>
+        <option value="taller_estructuras">Taller de Estructuras</option>
+        <option value="taller_motores">Taller de Motores</option>
+        <option value="taller_avionica">Taller de Aviónica</option>
+        <option value="taller_hidraulica">Taller de Hidráulica / Neumática</option>
+        <option value="taller_electricidad">Taller de Electricidad</option>
+        <option value="panol">Pañol / Almacén técnico</option>
+        <option value="deposito">Depósito / Almacén general</option>
+        <option value="rampa">Rampa / Línea de vuelo</option>
+        <option value="administracion">Área Administrativa</option>
+        <option value="hangar">Hangar</option>
+        <option value="ingenieria">Oficina de Ingeniería / CAMO</option>
+        <option value="otro">Otro</option>
+      </select>
+
+      <label for="fecha">Fecha y hora del evento</label>
+      <input type="datetime-local" id="fecha" name="fecha" required>
+
+      <label for="severidad">Severidad</label>
+      <select id="severidad" name="severidad">
+        <option value="">-- Selecciona severidad --</option>
+        <option value="baja">Baja</option>
+        <option value="media">Media</option>
+        <option value="alta">Alta</option>
+      </select>
+
+      <label for="descripcion">Descripción del evento</label>
+      <textarea id="descripcion" name="descripcion" placeholder="Explica lo ocurrido (máx. 500 caracteres)..." required maxlength="500"></textarea>
+
+      <label for="acciones">Acciones tomadas</label>
+      <textarea id="acciones" name="acciones" placeholder="¿Qué se hizo tras el evento? (máx. 500 caracteres)" maxlength="500"></textarea>
+
+      <label for="estado">Estado</label>
+      <select id="estado" name="estado">
+        <option value="">-- Selecciona estado --</option>
+        <option value="abierto">Abierto</option>
+        <option value="en_progreso">En progreso</option>
+        <option value="cerrado">Cerrado</option>
+      </select>
+
+      <label for="aeronave">Matrícula/Aeronave (opcional)</label>
+      <input type="text" id="aeronave" name="aeronave" placeholder="Ej. LV-ABC123">
+
+      <label for="componente">Componente afectado (opcional)</label>
+      <input type="text" id="componente" name="componente" placeholder="Ej. Motor izquierdo">
+
+      <button type="submit">Enviar Reporte</button>
     </form>
 
-    <h2>Respuestas registradas:</h2>
-    <ul>
-        {% for r in respuestas %}
-        <li><b>{{ r.nombre }}</b>: {{ r.comentario }}</li>
+    {% if respuestas %}
+      <div class="respuestas">
+        <h2>Reportes Registrados</h2>
+        {% for respuesta in respuestas %}
+          <div class="respuesta-item">
+            <p><strong>Nombre:</strong> {{ respuesta.nombre or 'No especificado' }}</p>
+            <p><strong>Área:</strong> {{ respuesta.area }}</p>
+            <p><strong>Fecha:</strong> {{ respuesta.fecha or 'No especificada' }}</p>
+            <p><strong>Severidad:</strong> {{ respuesta.severidad or 'No especificada' }}</p>
+            <p><strong>Descripción:</strong> {{ respuesta.descripcion }}</p>
+            <p><strong>Acciones:</strong> {{ respuesta.acciones or 'Ninguna' }}</p>
+            <p><strong>Estado:</strong> {{ respuesta.estado or 'No especificado' }}</p>
+            <p><strong>Aeronave:</strong> {{ respuesta.aeronave or 'No especificada' }}</p>
+            <p><strong>Componente:</strong> {{ respuesta.componente or 'No especificado' }}</p>
+          </div>
         {% endfor %}
-    </ul>
+      </div>
+    {% endif %}
+  </div>
 </body>
 </html>

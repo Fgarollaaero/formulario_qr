@@ -11,15 +11,15 @@ db = SQLAlchemy(app)
 
 class Respuesta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100))  # Opcional
-    area = db.Column(db.String(100))    # Área del evento
-    descripcion = db.Column(db.String(500))  # Descripción requerida
-    acciones = db.Column(db.String(500))     # Acciones tomadas (opcional)
-    fecha = db.Column(db.String(50))        # Fecha y hora (ej. "2025-08-31 09:00")
-    severidad = db.Column(db.String(20))    # Severidad (Baja, Media, Alta)
-    estado = db.Column(db.String(20))       # Estado (Abierto, En progreso, Cerrado)
-    aeronave = db.Column(db.String(100))    # Opcional, número de serie o matrícula
-    componente = db.Column(db.String(100))  # Opcional, componente afectado
+    nombre = db.Column(db.String(100))
+    area = db.Column(db.String(100))
+    descripcion = db.Column(db.String(500))
+    acciones = db.Column(db.String(500))
+    fecha = db.Column(db.String(50))
+    severidad = db.Column(db.String(20))
+    estado = db.Column(db.String(20))
+    aeronave = db.Column(db.String(100))
+    componente = db.Column(db.String(100))
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -33,7 +33,7 @@ def index():
         estado = request.form.get("estado", "")
         aeronave = request.form.get("aeronave", "")
         componente = request.form.get("componente", "")
-        if area and descripcion:  # Área y descripción son requeridos
+        if area and descripcion:
             try:
                 nueva = Respuesta(nombre=nombre, area=area, descripcion=descripcion, acciones=acciones,
                                  fecha=fecha, severidad=severidad, estado=estado, aeronave=aeronave, componente=componente)

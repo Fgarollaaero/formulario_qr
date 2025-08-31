@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file
+from flask import Flask, render_template, request, redirect, url_for, send_file, flash
 from flask_sqlalchemy import SQLAlchemy
 import qrcode
 import os
 import pandas as pd
 
 app = Flask(__name__)
+app.secret_key = "supersecreto"  # 🔹 Necesario para usar flash (podés cambiarlo por otra clave)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///datos.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -39,6 +40,8 @@ def index():
                                  fecha=fecha, severidad=severidad, estado=estado, aeronave=aeronave, componente=componente)
                 db.session.add(nueva)
                 db.session.commit()
+                        # 🔹 Mensaje que aparece al volver a la página
+                flash("✅ Reporte enviado con éxito")
                 return redirect(url_for("index"))
             except Exception as e:
                 return f"Error al guardar: {str(e)}", 500

@@ -1,130 +1,191 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Reporte de Seguridad Operacional</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f7fa;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <title>Reporte de Seguridad Operacional</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 0;
+    }
 
-        .container {
-            max-width: 700px;
-            margin: 40px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
 
-        .logo {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-        .logo img {
-            max-width: 200px;
-        }
+    .logo img {
+      max-width: 200px;
+    }
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
 
-        .flash-message {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: bold;
-        }
+    .flash-message {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
 
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 6px;
-            color: #444;
-        }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+      color: #444;
+    }
 
-        select, textarea, input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 14px;
-        }
+    select, textarea, input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
 
-        textarea {
-            resize: vertical;
-        }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
 
-        button {
-            background-color: #007BFF;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.3s;
-        }
+    button {
+      background-color: #007BFF;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
 
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .respuestas {
+      margin-top: 20px;
+    }
+
+    .respuesta-item {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Logo -->
-        <div class="logo">
-            <img src="{{ url_for('static', filename='logo1.jpeg') }}" alt="Logo Empresa">
-        </div>
-
-        <h1>Reporte de Seguridad Operacional</h1>
-
-        <!-- Mensaje de confirmación -->
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <div class="flash-message">
-              {{ messages[0] }}
-            </div>
-          {% endif %}
-        {% endwith %}
-
-        <form method="POST">
-            <!-- Área -->
-            <label for="area">Área</label>
-            <select id="area" name="area" required>
-                <option value="">-- Seleccione un área --</option>
-                <option value="Taller">Taller</option>
-                <option value="Pañol">Pañol</option>
-                <option value="Depósito">Depósito</option>
-                <option value="Rampa">Rampa</option>
-                <option value="Administración">Administración</option>
-                <option value="Otro">Otro</option>
-            </select>
-
-            <!-- Descripción -->
-            <label for="descripcion">Descripción de la eventualidad</label>
-            <textarea id="descripcion" name="descripcion" rows="5" placeholder="Describa lo sucedido..." required></textarea>
-
-            <!-- Responsable -->
-            <label for="responsable">Nombre del responsable</label>
-            <input type="text" id="responsable" name="responsable" placeholder="Ej: Juan Pérez" required>
-
-            <!-- Botón -->
-            <button type="submit">Enviar Reporte</button>
-        </form>
+  <div class="container">
+    <!-- Logo -->
+    <div class="logo">
+      <img src="{{ url_for('static', filename='logo1.jpeg') }}" alt="Logo Empresa">
     </div>
+
+    <h1>Reporte de Seguridad Operacional</h1>
+
+    <!-- Mensaje de confirmación -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-message">
+          {{ messages[0] }}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="/">
+      <label for="nombre">Nombre (opcional)</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre o deja en blanco">
+
+      <label for="area">Área del evento</label>
+      <select id="area" name="area" required>
+        <option value="">-- Selecciona un área --</option>
+        <option value="taller_estructuras">Taller de Estructuras</option>
+        <option value="taller_motores">Taller de Motores</option>
+        <option value="taller_avionica">Taller de Aviónica</option>
+        <option value="taller_hidraulica">Taller de Hidráulica / Neumática</option>
+        <option value="taller_electricidad">Taller de Electricidad</option>
+        <option value="panol">Pañol / Almacén técnico</option>
+        <option value="deposito">Depósito / Almacén general</option>
+        <option value="rampa">Rampa / Línea de vuelo</option>
+        <option value="administracion">Área Administrativa</option>
+        <option value="hangar">Hangar</option>
+        <option value="ingenieria">Oficina de Ingeniería / CAMO</option>
+        <option value="otro">Otro</option>
+      </select>
+
+      <label for="fecha">Fecha y hora del evento</label>
+      <input type="datetime-local" id="fecha" name="fecha" required>
+
+      <label for="severidad">Severidad</label>
+      <select id="severidad" name="severidad">
+        <option value="">-- Selecciona severidad --</option>
+        <option value="baja">Baja</option>
+        <option value="media">Media</option>
+        <option value="alta">Alta</option>
+      </select>
+
+      <label for="descripcion">Descripción del evento</label>
+      <textarea id="descripcion" name="descripcion" placeholder="Explica lo ocurrido (máx. 500 caracteres)..." required maxlength="500"></textarea>
+
+      <label for="acciones">Acciones tomadas</label>
+      <textarea id="acciones" name="acciones" placeholder="¿Qué se hizo tras el evento? (máx. 500 caracteres)" maxlength="500"></textarea>
+
+      <label for="estado">Estado</label>
+      <select id="estado" name="estado">
+        <option value="">-- Selecciona estado --</option>
+        <option value="abierto">Abierto</option>
+        <option value="en_progreso">En progreso</option>
+        <option value="cerrado">Cerrado</option>
+      </select>
+
+      <label for="aeronave">Matrícula/Aeronave (opcional)</label>
+      <input type="text" id="aeronave" name="aeronave" placeholder="Ej. LV-ABC123">
+
+      <label for="componente">Componente afectado (opcional)</label>
+      <input type="text" id="componente" name="componente" placeholder="Ej. Motor izquierdo">
+
+      <button type="submit">Enviar Reporte</button>
+    </form>
+
+    {% if respuestas %}
+      <div class="respuestas">
+        <h2>Reportes Registrados</h2>
+        {% for respuesta in respuestas %}
+          <div class="respuesta-item">
+            <p><strong>Nombre:</strong> {{ respuesta.nombre or 'No especificado' }}</p>
+            <p><strong>Área:</strong> {{ respuesta.area }}</p>
+            <p><strong>Fecha:</strong> {{ respuesta.fecha or 'No especificada' }}</p>
+            <p><strong>Severidad:</strong> {{ respuesta.severidad or 'No especificada' }}</p>
+            <p><strong>Descripción:</strong> {{ respuesta.descripcion }}</p>
+            <p><strong>Acciones:</strong> {{ respuesta.acciones or 'Ninguna' }}</p>
+            <p><strong>Estado:</strong> {{ respuesta.estado or 'No especificado' }}</p>
+            <p><strong>Aeronave:</strong> {{ respuesta.aeronave or 'No especificada' }}</p>
+            <p><strong>Componente:</strong> {{ respuesta.componente or 'No especificado' }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
 </body>
 </html>

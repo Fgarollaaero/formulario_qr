@@ -117,22 +117,18 @@
       <label for="nombre">Nombre (opcional)</label>
       <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre o deja en blanco">
 
-      <label for="area">Área del evento</label>
-      <select id="area" name="area" required>
-        <option value="">-- Selecciona un área --</option>
-        <option value="taller_estructuras">Taller de Estructuras</option>
-        <option value="taller_motores">Taller de Motores</option>
-        <option value="taller_avionica">Taller de Aviónica</option>
-        <option value="taller_hidraulica">Taller de Hidráulica / Neumática</option>
-        <option value="taller_electricidad">Taller de Electricidad</option>
-        <option value="panol">Pañol / Almacén técnico</option>
-        <option value="deposito">Depósito / Almacén general</option>
-        <option value="rampa">Rampa / Línea de vuelo</option>
-        <option value="administracion">Área Administrativa</option>
-        <option value="hangar">Hangar</option>
-        <option value="ingenieria">Oficina de Ingeniería / CAMO</option>
-        <option value="otro">Otro</option>
-      </select>
+<select name="area" id="area" required>
+  <option value="">-- Selecciona un área --</option>
+  <option value="taller_hangar">Taller / Hangar</option>
+  <option value="oficina_tecnica">Oficina Técnica</option>
+  <option value="rampa_plataforma">Rampa / Plataforma</option>
+  <option value="deposito_panol">Depósito / Pañol</option>
+  <option value="carpa_pintura">Carpa de Pintura</option>
+  <option value="comedor_vestuarios">Comedor / Vestuarios</option>
+  <option value="sala_instruccion">Sala de Instrucción</option>
+  <option value="estacionamiento">Estacionamiento</option>
+  <option value="sector_administrativo">Sector Administrativo</option>
+</select>
 
       <label for="fecha">Fecha y hora del evento</label>
       <input type="datetime-local" id="fecha" name="fecha" required>

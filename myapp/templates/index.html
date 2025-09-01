@@ -117,18 +117,25 @@
       <label for="nombre">Nombre (opcional)</label>
       <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre o deja en blanco">
 
-<select name="area" id="area" required>
-  <option value="">-- Selecciona un área --</option>
-  <option value="taller_hangar">Taller / Hangar</option>
-  <option value="oficina_tecnica">Oficina Técnica</option>
-  <option value="rampa_plataforma">Rampa / Plataforma</option>
-  <option value="deposito_panol">Depósito / Pañol</option>
-  <option value="carpa_pintura">Carpa de Pintura</option>
-  <option value="comedor_vestuarios">Comedor / Vestuarios</option>
-  <option value="sala_instruccion">Sala de Instrucción</option>
-  <option value="estacionamiento">Estacionamiento</option>
-  <option value="sector_administrativo">Sector Administrativo</option>
-</select>
+      <label for="area">Área</label>
+      <select name="area" id="area" required>
+        <option value="">-- Selecciona un área --</option>
+        <option value="taller_hangar">Taller / Hangar</option>
+        <option value="oficina_tecnica">Oficina Técnica</option>
+        <option value="rampa_plataforma">Rampa / Plataforma</option>
+        <option value="deposito_panol">Depósito / Pañol</option>
+        <option value="carpa_pintura">Carpa de Pintura</option>
+        <option value="comedor_vestuarios">Comedor / Vestuarios</option>
+        <option value="sala_instruccion">Sala de Instrucción</option>
+        <option value="estacionamiento">Estacionamiento</option>
+        <option value="sector_administrativo">Sector Administrativo</option>
+      </select>
+
+      <!-- Desplegable dinámico de riesgos -->
+      <label for="riesgo">Riesgo común del área</label>
+      <select id="riesgo" name="riesgo">
+        <option value="">-- Selecciona un riesgo --</option>
+      </select>
 
       <label for="fecha">Fecha y hora del evento</label>
       <input type="datetime-local" id="fecha" name="fecha" required>
@@ -171,6 +178,7 @@
           <div class="respuesta-item">
             <p><strong>Nombre:</strong> {{ respuesta.nombre or 'No especificado' }}</p>
             <p><strong>Área:</strong> {{ respuesta.area }}</p>
+            <p><strong>Riesgo:</strong> {{ respuesta.riesgo or 'No especificado' }}</p>
             <p><strong>Fecha:</strong> {{ respuesta.fecha or 'No especificada' }}</p>
             <p><strong>Severidad:</strong> {{ respuesta.severidad or 'No especificada' }}</p>
             <p><strong>Descripción:</strong> {{ respuesta.descripcion }}</p>
@@ -183,5 +191,37 @@
       </div>
     {% endif %}
   </div>
+
+  <script>
+    // Lista de riesgos por área
+    const riesgosPorArea = {
+      taller_hangar: ["Herramientas fuera de lugar", "Derrame de fluidos", "Uso inadecuado de EPP"],
+      oficina_tecnica: ["Errores en documentación", "Distracciones", "Sobrecarga de trabajo"],
+      rampa_plataforma: ["Tránsito de vehículos", "Objetos FOD", "Ruido excesivo"],
+      deposito_panol: ["Material mal almacenado", "Productos inflamables", "Pasillos obstruidos"],
+      carpa_pintura: ["Vapores tóxicos", "Incendio", "EPP incompleto"],
+      comedor_vestuarios: ["Suelos mojados", "Residuos mal gestionados", "Equipamiento eléctrico defectuoso"],
+      sala_instruccion: ["Cableado suelto", "Equipos sin mantenimiento", "Salidas de emergencia bloqueadas"],
+      estacionamiento: ["Vehículos mal estacionados", "Iluminación deficiente", "Accidentes por peatones"],
+      sector_administrativo: ["Documentación expuesta", "Caídas por cables", "Uso indebido de equipos eléctricos"]
+    };
+
+    const areaSelect = document.getElementById("area");
+    const riesgoSelect = document.getElementById("riesgo");
+
+    areaSelect.addEventListener("change", () => {
+      const area = areaSelect.value;
+      riesgoSelect.innerHTML = '<option value="">-- Selecciona un riesgo --</option>';
+
+      if (riesgosPorArea[area]) {
+        riesgosPorArea[area].forEach(riesgo => {
+          const option = document.createElement("option");
+          option.value = riesgo;
+          option.textContent = riesgo;
+          riesgoSelect.appendChild(option);
+        });
+      }
+    });
+  </script>
 </body>
 </html>

@@ -195,15 +195,15 @@
   <script>
     // Lista de riesgos por área
     const riesgosPorArea = {
-      taller_hangar: ["Herramientas fuera de lugar", "Derrame de fluidos", "Uso inadecuado de EPP"],
-      oficina_tecnica: ["Errores en documentación", "Distracciones", "Sobrecarga de trabajo"],
-      rampa_plataforma: ["Tránsito de vehículos", "Objetos FOD", "Ruido excesivo"],
-      deposito_panol: ["Material mal almacenado", "Productos inflamables", "Pasillos obstruidos"],
-      carpa_pintura: ["Vapores tóxicos", "Incendio", "EPP incompleto"],
-      comedor_vestuarios: ["Suelos mojados", "Residuos mal gestionados", "Equipamiento eléctrico defectuoso"],
-      sala_instruccion: ["Cableado suelto", "Equipos sin mantenimiento", "Salidas de emergencia bloqueadas"],
-      estacionamiento: ["Vehículos mal estacionados", "Iluminación deficiente", "Accidentes por peatones"],
-      sector_administrativo: ["Documentación expuesta", "Caídas por cables", "Uso indebido de equipos eléctricos"]
+      taller_hangar: ["Derrame de fluidos en el suelo", "Falta de equipamiento de seguridad","Falta de equipo/herramientas de trabajo", "Presencia de personas ajenas en el área", "Elementos punzantes/cortantes sin protección", "Presión/Sobrecarga en el trabajo", "Distracciones", "Falta de documentación técnica actualizada", "Falta de capacitación/cursos","Falta de equipo de primeros auxilios", "Obstáculos en el área de trabajo","Salidas de emergencia bloqueadas", "Presencia de FOD","Falta de señalización de seguridad","Irregularidades en el equipo/sistema contra incendios", "Otros"],
+      oficina_tecnica: ["Derrame de fluidos en el suelo","Ruido excesivo", "Presión/Sobrecarga en el trabajo", "Distracciones", "Falta de documentación técnica actualizada","Obstáculos en el área de trabajo","Falta de equipo de primeros auxilios","Salidas de emergencia bloqueadas", "Irregularidades en el equipo/sistema contra incendios","Otros"],
+      rampa_plataforma: ["Derrame de fluidos en el suelo","Falta de equipamiento de seguridad", "Falta/Deficiencia en el equipo de trabajo","Falta de señalización de seguridad","Presencia de personas ajenas en el área", "Objetos FOD","Falta de equipo de primeros auxilios", "Irregularidades en el equipo/sistema contra incendios","Falta de capacitación/cursos","Presión/Sobrecarga en el trabajo", "Distracciones","Otros"],
+      deposito_panol: ["Material mal almacenado","Ingreso de personas ajenas al sector","Ruido excesivo", "Productos inflamables", "Pasillos obstruidos","Presión/Sobrecarga en el trabajo", "Distracciones","Falta de equipo de primeros auxilios","Irregularidades en el equipo/sistema contra incendios","Ingreso e componentes/repuestos sin documentación","Otros"],
+      carpa_pintura: ["Vapores tóxicos", "Incendio", "EPP incompleto","Falta de equipo de primeros auxilios","Irregularidades en el equipo/sistema contra incendios","Presión/Sobrecarga en el trabajo","Otros"],
+      comedor_vestuarios: ["Suelos mojados", "Residuos mal gestionados","Falta de equipo de primeros auxilios", "Equipamiento eléctrico defectuoso","Irregularidades en el equipo/sistema contra incendios", "Distracciones","Presión/Sobrecarga en el trabajo","Otros"],
+      sala_instruccion: ["Cableado suelto", "Equipos sin mantenimiento", "Falta de equipo de primeros auxilios","Salidas de emergencia bloqueadas","Irregularidades en el equipo/sistema contra incendios", "Distracciones","Presión/Sobrecarga en el trabajo","Otros"],
+      estacionamiento: ["Vehículos mal estacionados", "Iluminación deficiente","Falta de equipo de primeros auxilios", "Accidentes por peatones","Irregularidades en el equipo/sistema contra incendios", "Distracciones","Presión/Sobrecarga en el trabajo","Otros"],
+      sector_administrativo: ["Documentación expuesta", "Caídas por cables","Falta de equipo de primeros auxilios", "Uso indebido de equipos eléctricos","Irregularidades en el equipo/sistema contra incendios", "Distracciones","Presión/Sobrecarga en el trabajo","Otros"]
     };
 
     const areaSelect = document.getElementById("area");
